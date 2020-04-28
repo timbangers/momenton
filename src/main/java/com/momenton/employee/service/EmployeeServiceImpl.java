@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.momenton.employee.dao.EmployeeDAO;
 import com.momenton.employee.dao.EmployeeRepository;
+import com.momenton.employee.exception.EmployeeException;
 import com.momenton.employee.types.CEO;
 import com.momenton.employee.types.Employee;
 import com.momenton.employee.types.JSONTable;
@@ -27,7 +28,7 @@ public class EmployeeServiceImpl {
 	@Autowired
 	private EmployeeRepository repo;
 
-	public JSONTable getAllEmployees () {
+	public JSONTable getAllEmployees () throws EmployeeException {
 		List <EmployeeDAO> employees = repo.findAll();
 		CEO ceo = new CEO();
 		List <Manager> managerList = new ArrayList <Manager>();
@@ -36,7 +37,7 @@ public class EmployeeServiceImpl {
 			//get the ceo
 			if (emp.getManagerId() == null) {
 				ceo.setName(emp.getName());
-				ceo.setEmployeeId(emp.getEmployeeId().intValue());
+				this.validateEmployeeId(ceo, emp);
 				break;
 			}
 		}
@@ -45,7 +46,7 @@ public class EmployeeServiceImpl {
 			if (ceo.getEmployeeId().equals(emp.getManagerId())) {
 				Manager manager = new Manager ();
 				manager.setName(emp.getName());
-				manager.setEmployeeId(emp.getEmployeeId());
+				this.validateEmployeeId(manager, emp);
 				managerList.add(manager);
 			}
 		}
@@ -56,7 +57,7 @@ public class EmployeeServiceImpl {
 				if (manager.getEmployeeId().equals(emp.getManagerId())) {
 					Employee nonManagerEmp = new Employee();
 					nonManagerEmp.setName(emp.getName());
-					nonManagerEmp.setEmployeeId(emp.getEmployeeId());
+					this.validateEmployeeId(nonManagerEmp, emp);
 					nonManagers.add(nonManagerEmp);
 				}
 			}
@@ -66,5 +67,13 @@ public class EmployeeServiceImpl {
 		table.setCeo(ceo);
 		return table;
 	}
-
+	
+	private Employee validateEmployeeId(Employee e, EmployeeDAO emp) throws EmployeeException {
+		if (emp.getEmployeeId() == null) {//employee id cannot be blank, might not be an employee
+			throw new EmployeeException ();//handle it here
+		} else {
+			e.setEmployeeId(emp.getEmployeeId());
+		}
+		return e;
+	}
 }

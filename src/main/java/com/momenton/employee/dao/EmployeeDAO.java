@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 /**
@@ -21,9 +22,11 @@ public class EmployeeDAO {
 	private Integer id;
 	
 	@Column(name = "employee_name")
+	@NonNull
 	private String name;
 	
 	@Column(name = "employee_id")
+	@NonNull
 	private Integer employeeId;
 	
 	@Column(name = "manager_id")

@@ -1,5 +1,7 @@
 package com.momenton.employee.types;
 
+import org.springframework.lang.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Employee {
@@ -29,9 +31,4 @@ public class Employee {
 	public void setManagerId(Integer managerId) {
 		this.managerId = managerId;
 	}
-	
-	
-	
-	
-
 }
