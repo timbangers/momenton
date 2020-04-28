@@ -4,11 +4,11 @@ This project is a Springboot project built with gradle. Please make sure to do "
 
 Simply start the Springboot application using the boot button on STS after running the gradle build.
 
-If you are suing Eclipse or IDEA, simply run the EmployeeApplication as a Java Application to start the server.
+If you are using Eclipse or IDEA, simply run the EmployeeApplication as a Java Application to start the server.
 
 Next, open your browser to http://localhost:8081/momenton/employees where you will see a json representation of the company hierarchy:
 
-{
+<code>{
 	"ceo": {
 		"name": "Jamie",
 		"employees": [{
@@ -25,21 +25,17 @@ Next, open your browser to http://localhost:8081/momenton/employees where you wi
 			}]
 		}]
 	}
-}
+}</code>
 
 The project uses an embedded H2 in memory db to store the tables. You can access it via http://localhost:8081/h2-console/
 The credentials and other configuration for the H2 db are in application.properties:
 
-server.port=8081
+<pre><code>server.port=8081</br>
+spring.datasource.url=jdbc:h2:mem:testdb</br>
+spring.datasource.driverClassName=org.h2.Driver</br>
+spring.datasource.username=sa</br>
+spring.datasource.password=admin</br>
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect</br>
+spring.h2.console.enabled=true</br></code></pre>
 
-spring.datasource.url=jdbc:h2:mem:testdb
 
-spring.datasource.driverClassName=org.h2.Driver
-
-spring.datasource.username=sa
-
-spring.datasource.password=admin
-
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
-spring.h2.console.enabled=true
